@@ -6,22 +6,39 @@ import Link from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import {
   getMarkdownFile,
-  processContent,
+  getAllMarkdownDocuments,
   isPublished,
+  processContent,
   syncAttachments,
 } from "@/lib/markdown";
 
-export default function Home() {
-  // Ensure attachments are mirrored to /public for direct serving
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export async function generateStaticParams() {
+  const docs = getAllMarkdownDocuments().filter((doc) =>
+    isPublished(doc.frontMatter)
+  );
+  return docs.map((doc) => ({ slug: doc.slug }));
+}
+
+export default async function MarkdownPage({ params }: PageProps) {
+  // Ensure attachments are available in public on build/export
   syncAttachments();
-  const markdownFile = getMarkdownFile("home");
+  const markdownFile = getMarkdownFile(params.slug);
 
   if (!markdownFile) {
     notFound();
   }
+
   if (!isPublished(markdownFile.frontMatter)) {
     notFound();
   }
+
+  // Process embeds and wiki links
   const processedContent = processContent(markdownFile.content);
 
   return (
@@ -42,6 +59,7 @@ export default function Home() {
               if (href && isInternalLink) {
                 return <Link href={href}>{props.children}</Link>;
               }
+              // External link fallback
               return <a {...props} />;
             },
           }}
@@ -55,4 +73,27 @@ export default function Home() {
       </article>
     </div>
   );
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const markdownFile = getMarkdownFile(params.slug);
+
+  if (!markdownFile) {
+    return {
+      title: "Page Not Found",
+    };
+  }
+
+  // Extract title from content (first heading)
+  const fmTitle = markdownFile.frontMatter?.title as string | undefined;
+  const titleMatch = markdownFile.content.match(/^#\s+(.+)$/m);
+  const title = fmTitle || (titleMatch ? titleMatch[1] : params.slug);
+  const description =
+    (markdownFile.frontMatter?.description as string | undefined) ||
+    `A page from my digital garden: ${title}`;
+
+  return {
+    title: `${title} - Van`,
+    description,
+  };
 }

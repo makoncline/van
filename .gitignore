@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+ 
+# attachments mirror (generated from content/attachments)
+/public/attachments/
