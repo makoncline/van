@@ -11,6 +11,17 @@ import {
   processContent,
   syncAttachments,
 } from "@/lib/markdown";
+import {
+  H1,
+  H2,
+  H3,
+  H4,
+  P,
+  InlineCode,
+  MultilineCode,
+  List,
+  Quote,
+} from "@/app/components/ui/typography";
 
 interface PageProps {
   params: {
@@ -47,6 +58,15 @@ export default async function MarkdownPage({ params }: PageProps) {
         <MDXRemote
           source={processedContent}
           components={{
+            h1: H1,
+            h2: H2,
+            h3: H3,
+            h4: H4,
+            p: P,
+            ul: List,
+            blockquote: Quote,
+            code: InlineCode,
+            pre: MultilineCode,
             a: (
               props: AnchorHTMLAttributes<HTMLAnchorElement> & {
                 children?: ReactNode;
@@ -75,8 +95,13 @@ export default async function MarkdownPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps) {
-  const markdownFile = getMarkdownFile(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<PageProps["params"]>;
+}) {
+  const { slug } = await params;
+  const markdownFile = getMarkdownFile(slug);
 
   if (!markdownFile) {
     return {
@@ -87,7 +112,7 @@ export async function generateMetadata({ params }: PageProps) {
   // Extract title from content (first heading)
   const fmTitle = markdownFile.frontMatter?.title as string | undefined;
   const titleMatch = markdownFile.content.match(/^#\s+(.+)$/m);
-  const title = fmTitle || (titleMatch ? titleMatch[1] : params.slug);
+  const title = fmTitle || (titleMatch ? titleMatch[1] : slug);
   const description =
     (markdownFile.frontMatter?.description as string | undefined) ||
     `A page from my digital garden: ${title}`;

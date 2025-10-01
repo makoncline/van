@@ -20,9 +20,39 @@ export function getAllMarkdownFiles(): string[] {
   }
 }
 
+let cachedSlugToFilename: Map<string, string> | null = null;
+
+function buildSlugToFilenameMap(): Map<string, string> {
+  const map = new Map<string, string>();
+  const files = getAllMarkdownFiles();
+  for (const file of files) {
+    const originalSlug = file.replace(".md", "");
+    const urlSlug = slugify(originalSlug);
+    map.set(urlSlug, file);
+  }
+  return map;
+}
+
+function getSlugToFilenameMap(): Map<string, string> {
+  if (!cachedSlugToFilename) {
+    cachedSlugToFilename = buildSlugToFilenameMap();
+  }
+  return cachedSlugToFilename;
+}
+
 export function getMarkdownFile(slug: string): MarkdownFile | null {
   try {
-    const filePath = path.join(contentDirectory, `${slug}.md`);
+    // First try direct filename match (for backward compatibility)
+    let filePath = path.join(contentDirectory, `${slug}.md`);
+    if (!fs.existsSync(filePath)) {
+      // Try URL slug to filename mapping
+      const slugToFilename = getSlugToFilenameMap();
+      const filename = slugToFilename.get(slug);
+      if (filename) {
+        filePath = path.join(contentDirectory, filename);
+      }
+    }
+
     const fileContent = fs.readFileSync(filePath, "utf8");
     const { data: frontMatter, content } = matter(fileContent);
 
@@ -41,12 +71,13 @@ export function getAllMarkdownDocuments(): MarkdownFile[] {
   const files = getAllMarkdownFiles();
   const documents: MarkdownFile[] = [];
   for (const file of files) {
-    const slug = file.replace(".md", "");
+    const originalSlug = file.replace(".md", "");
+    const urlSlug = slugify(originalSlug);
     try {
       const filePath = path.join(contentDirectory, file);
       const fileContent = fs.readFileSync(filePath, "utf8");
       const { data: frontMatter, content } = matter(fileContent);
-      documents.push({ slug, content, frontMatter });
+      documents.push({ slug: urlSlug, content, frontMatter });
     } catch (error) {
       console.error(`Error reading file ${file}:`, error);
     }
@@ -82,7 +113,8 @@ function buildAliasToSlugMap(): Map<string, string> {
   const map = new Map<string, string>();
   const files = getAllMarkdownFiles();
   for (const file of files) {
-    const slug = file.replace(".md", "");
+    const originalSlug = file.replace(".md", "");
+    const urlSlug = slugify(originalSlug); // URL-safe version
     const filePath = path.join(contentDirectory, file);
     let fileContent = "";
     try {
@@ -92,13 +124,13 @@ function buildAliasToSlugMap(): Map<string, string> {
     }
     const title = fileContent ? extractTitleFromContent(fileContent) : null;
 
-    // Primary aliases
-    map.set(normalizeAlias(slug), slug);
-    map.set(normalizeAlias(slug.replace(/-/g, " ")), slug);
+    // Primary aliases - map to URL-safe slug
+    map.set(normalizeAlias(originalSlug), urlSlug);
+    map.set(normalizeAlias(originalSlug.replace(/-/g, " ")), urlSlug);
 
     if (title) {
-      map.set(normalizeAlias(title), slug);
-      map.set(normalizeAlias(slugify(title)), slug);
+      map.set(normalizeAlias(title), urlSlug);
+      map.set(normalizeAlias(slugify(title)), urlSlug);
     }
   }
   return map;
@@ -112,9 +144,13 @@ function getAliasToSlugMap(): Map<string, string> {
 }
 
 export function processWikiLinks(content: string): string {
-  // Convert [[target]] to [target](/resolved-slug)
-  // Convert [[target|display text]] to [display text](/resolved-slug)
+  // Convert [[target]] to [target](/resolved-slug) or [target](/missing?slug=...)
+  // Convert [[target|display text]] to [display text](/resolved-slug) or [display text](/missing?slug=...)
   const aliasToSlug = getAliasToSlugMap();
+  const existingSlugs = new Set(
+    getAllMarkdownDocuments().map((doc) => doc.slug)
+  );
+
   return content.replace(
     /\[\[([^\]]+)\]\]/g,
     (match, linkContent, offset: number, full: string) => {
@@ -161,7 +197,14 @@ export function processWikiLinks(content: string): string {
       }
 
       const slug = resolvedSlug ?? slugify(target);
-      return `[${displayText}](/${slug})`;
+
+      // Check if the page actually exists
+      if (existingSlugs.has(slug)) {
+        return `[${displayText}](/${slug})`;
+      } else {
+        // Don't create a link for missing pages - just show plain text
+        return displayText;
+      }
     }
   );
 }

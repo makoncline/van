@@ -10,6 +10,21 @@ import {
   isPublished,
   syncAttachments,
 } from "@/lib/markdown";
+import {
+  H1,
+  H2,
+  H3,
+  H4,
+  Lead,
+  P,
+  Large,
+  Small,
+  Muted,
+  InlineCode,
+  MultilineCode,
+  List,
+  Quote,
+} from "@/app/components/ui/typography";
 
 export default function Home() {
   // Ensure attachments are mirrored to /public for direct serving
@@ -30,6 +45,15 @@ export default function Home() {
         <MDXRemote
           source={processedContent}
           components={{
+            h1: H1,
+            h2: H2,
+            h3: H3,
+            h4: H4,
+            p: P,
+            ul: List,
+            blockquote: Quote,
+            code: InlineCode,
+            pre: MultilineCode,
             a: (
               props: AnchorHTMLAttributes<HTMLAnchorElement> & {
                 children?: ReactNode;
