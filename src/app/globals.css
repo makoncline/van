@@ -70,7 +70,7 @@
 }
 
 .prose ul {
-  @apply list-disc list-inside mb-4;
+  @apply list-disc list-outside mb-4;
 }
 
 .prose ol {
@@ -79,6 +79,11 @@
 
 .prose li {
   @apply text-gray-700 dark:text-gray-300 mb-1;
+}
+
+/* Ensure bullets and text appear on the same line within list items */
+.prose li > p {
+  @apply m-0;
 }
 
 .prose blockquote {
