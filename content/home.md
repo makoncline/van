@@ -2,8 +2,6 @@
 title: Home
 published: true
 ---
-
-test
 # Van
 
 ![[IMG_5733 2.png|Van]]
