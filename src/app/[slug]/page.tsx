@@ -1,24 +1,27 @@
 import { MarkdownArticle } from "@/app/components/markdown-article";
 import { getMarkdownFile } from "@/lib/markdown";
 
+interface RouteParams {
+  slug: string;
+}
+
 interface PageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<RouteParams>;
 }
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const runtime = "nodejs";
 
-export default function MarkdownPage({ params }: PageProps) {
-  return <MarkdownArticle slug={params.slug} />;
+export default async function MarkdownPage({ params }: PageProps) {
+  const { slug } = await params;
+  return <MarkdownArticle slug={slug} />;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const markdownFile = await getMarkdownFile(slug);
 
   if (!markdownFile) {
