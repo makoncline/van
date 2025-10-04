@@ -7,6 +7,10 @@ interface PageProps {
   };
 }
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const runtime = "nodejs";
+
 export default function MarkdownPage({ params }: PageProps) {
   return <MarkdownArticle slug={params.slug} />;
 }

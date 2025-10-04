@@ -18,6 +18,8 @@ interface GitHubContentItem {
 function githubHeaders(): HeadersInit {
   const headers: HeadersInit = {
     Accept: "application/vnd.github.v3+json",
+    "User-Agent":
+      process.env.CONTENT_GITHUB_USER_AGENT ?? "van-markdown-fetch/1.0",
   };
   const token =
     process.env.CONTENT_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? undefined;
