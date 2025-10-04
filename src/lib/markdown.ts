@@ -1,8 +1,31 @@
-import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
 
-const contentDirectory = path.join(process.cwd(), "content");
+const GITHUB_OWNER = process.env.CONTENT_GITHUB_OWNER ?? "makoncline";
+const GITHUB_REPO = process.env.CONTENT_GITHUB_REPO ?? "van";
+const GITHUB_BRANCH = process.env.CONTENT_GITHUB_BRANCH ?? "main";
+const GITHUB_CONTENT_DIR = process.env.CONTENT_GITHUB_DIR ?? "content";
+
+const GITHUB_API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`;
+const GITHUB_CONTENTS_BASE = `${GITHUB_API_BASE}/contents/${GITHUB_CONTENT_DIR}`;
+const GITHUB_RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_CONTENT_DIR}`;
+
+interface GitHubContentItem {
+  name: string;
+  path: string;
+  type: "file" | "dir";
+}
+
+function githubHeaders(): HeadersInit {
+  const headers: HeadersInit = {
+    Accept: "application/vnd.github.v3+json",
+  };
+  const token =
+    process.env.CONTENT_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? undefined;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+}
 
 export interface MarkdownFile {
   slug: string;
@@ -10,21 +33,72 @@ export interface MarkdownFile {
   frontMatter: Record<string, unknown>;
 }
 
-export function getAllMarkdownFiles(): string[] {
+function extractTitleFromContent(fileContent: string): string | null {
+  const { content } = matter(fileContent);
+  const titleMatch = content.match(/^#\s+(.+)$/m);
+  return titleMatch ? titleMatch[1].trim() : null;
+}
+
+async function fetchDirectoryItems(path = ""): Promise<GitHubContentItem[]> {
+  const base = path ? `${GITHUB_CONTENTS_BASE}/${path}` : GITHUB_CONTENTS_BASE;
+  const url = `${base}?ref=${encodeURIComponent(GITHUB_BRANCH)}`;
   try {
-    const files = fs.readdirSync(contentDirectory);
-    return files.filter((file) => file.endsWith(".md"));
+    const response = await fetch(url, {
+      headers: githubHeaders(),
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      console.error("GitHub directory fetch failed", {
+        status: response.status,
+        statusText: response.statusText,
+        url,
+      });
+      return [];
+    }
+    const data = (await response.json()) as GitHubContentItem[];
+    return Array.isArray(data) ? data : [];
   } catch (error) {
-    console.error("Error reading content directory:", error);
+    console.error("Error fetching GitHub directory:", { url, error });
     return [];
   }
 }
 
-let cachedSlugToFilename: Map<string, string> | null = null;
+async function fetchFileContent(filename: string): Promise<string | null> {
+  const base = `${GITHUB_CONTENTS_BASE}/${encodeURIComponent(filename)}`;
+  const url = `${base}?ref=${encodeURIComponent(GITHUB_BRANCH)}`;
+  try {
+    const response = await fetch(url, {
+      headers: {
+        ...githubHeaders(),
+        Accept: "application/vnd.github.v3.raw",
+      },
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      console.error("GitHub file fetch failed", {
+        status: response.status,
+        statusText: response.statusText,
+        url,
+      });
+      return null;
+    }
+    return await response.text();
+  } catch (error) {
+    console.error("Error fetching GitHub file:", { url, error });
+    return null;
+  }
+}
 
-function buildSlugToFilenameMap(): Map<string, string> {
+export async function getAllMarkdownFiles(): Promise<string[]> {
+  const items = await fetchDirectoryItems();
+  return items
+    .filter((item) => item.type === "file" && item.name.endsWith(".md"))
+    .map((item) => item.name);
+}
+
+async function buildSlugToFilenameMap(): Promise<Map<string, string>> {
   const map = new Map<string, string>();
-  const files = getAllMarkdownFiles();
+  const files = await getAllMarkdownFiles();
   for (const file of files) {
     const originalSlug = file.replace(".md", "");
     const urlSlug = slugify(originalSlug);
@@ -33,27 +107,24 @@ function buildSlugToFilenameMap(): Map<string, string> {
   return map;
 }
 
-function getSlugToFilenameMap(): Map<string, string> {
-  if (!cachedSlugToFilename) {
-    cachedSlugToFilename = buildSlugToFilenameMap();
-  }
-  return cachedSlugToFilename;
+async function getSlugToFilenameMap(): Promise<Map<string, string>> {
+  return buildSlugToFilenameMap();
 }
 
-export function getMarkdownFile(slug: string): MarkdownFile | null {
+export async function getMarkdownFile(
+  slug: string
+): Promise<MarkdownFile | null> {
   try {
-    // First try direct filename match (for backward compatibility)
-    let filePath = path.join(contentDirectory, `${slug}.md`);
-    if (!fs.existsSync(filePath)) {
-      // Try URL slug to filename mapping
-      const slugToFilename = getSlugToFilenameMap();
-      const filename = slugToFilename.get(slug);
-      if (filename) {
-        filePath = path.join(contentDirectory, filename);
-      }
+    const slugToFilename = await getSlugToFilenameMap();
+    const filename = slugToFilename.get(slug);
+    if (!filename) {
+      return null;
     }
 
-    const fileContent = fs.readFileSync(filePath, "utf8");
+    const fileContent = await fetchFileContent(filename);
+    if (!fileContent) {
+      return null;
+    }
     const { data: frontMatter, content } = matter(fileContent);
 
     return {
@@ -67,36 +138,12 @@ export function getMarkdownFile(slug: string): MarkdownFile | null {
   }
 }
 
-export function getAllMarkdownDocuments(): MarkdownFile[] {
-  const files = getAllMarkdownFiles();
-  const documents: MarkdownFile[] = [];
-  for (const file of files) {
-    const originalSlug = file.replace(".md", "");
-    const urlSlug = slugify(originalSlug);
-    try {
-      const filePath = path.join(contentDirectory, file);
-      const fileContent = fs.readFileSync(filePath, "utf8");
-      const { data: frontMatter, content } = matter(fileContent);
-      documents.push({ slug: urlSlug, content, frontMatter });
-    } catch (error) {
-      console.error(`Error reading file ${file}:`, error);
-    }
-  }
-  return documents;
-}
-
 export function isPublished(
   frontMatter: Record<string, unknown> | undefined
 ): boolean {
   if (!frontMatter || typeof frontMatter !== "object") return true;
   // Treat missing as published; only explicit false hides the page
   return frontMatter.published !== false;
-}
-
-function extractTitleFromContent(fileContent: string): string | null {
-  const { content } = matter(fileContent);
-  const titleMatch = content.match(/^#\s+(.+)$/m);
-  return titleMatch ? titleMatch[1].trim() : null;
 }
 
 function normalizeAlias(value: string): string {
@@ -107,49 +154,43 @@ function slugify(value: string): string {
   return normalizeAlias(value).replace(/\s+/g, "-");
 }
 
-let cachedAliasToSlug: Map<string, string> | null = null;
-
-function buildAliasToSlugMap(): Map<string, string> {
+async function buildAliasToSlugMap(): Promise<Map<string, string>> {
   const map = new Map<string, string>();
-  const files = getAllMarkdownFiles();
+  const files = await getAllMarkdownFiles();
   for (const file of files) {
     const originalSlug = file.replace(".md", "");
     const urlSlug = slugify(originalSlug); // URL-safe version
-    const filePath = path.join(contentDirectory, file);
-    let fileContent = "";
-    try {
-      fileContent = fs.readFileSync(filePath, "utf8");
-    } catch {
-      // ignore read errors for alias map
-    }
-    const title = fileContent ? extractTitleFromContent(fileContent) : null;
 
     // Primary aliases - map to URL-safe slug
     map.set(normalizeAlias(originalSlug), urlSlug);
     map.set(normalizeAlias(originalSlug.replace(/-/g, " ")), urlSlug);
 
-    if (title) {
-      map.set(normalizeAlias(title), urlSlug);
-      map.set(normalizeAlias(slugify(title)), urlSlug);
+    const fileContent = await fetchFileContent(file);
+    if (fileContent) {
+      const title = extractTitleFromContent(fileContent);
+      if (title) {
+        map.set(normalizeAlias(title), urlSlug);
+        map.set(normalizeAlias(slugify(title)), urlSlug);
+      }
     }
   }
   return map;
 }
 
-function getAliasToSlugMap(): Map<string, string> {
-  if (!cachedAliasToSlug) {
-    cachedAliasToSlug = buildAliasToSlugMap();
-  }
-  return cachedAliasToSlug;
+async function getAliasToSlugMap(): Promise<Map<string, string>> {
+  return buildAliasToSlugMap();
 }
 
-export function processWikiLinks(content: string): string {
+async function getExistingSlugs(): Promise<Set<string>> {
+  const slugToFilename = await getSlugToFilenameMap();
+  return new Set(slugToFilename.keys());
+}
+
+export async function processWikiLinks(content: string): Promise<string> {
   // Convert [[target]] to [target](/resolved-slug) or [target](/missing?slug=...)
   // Convert [[target|display text]] to [display text](/resolved-slug) or [display text](/missing?slug=...)
-  const aliasToSlug = getAliasToSlugMap();
-  const existingSlugs = new Set(
-    getAllMarkdownDocuments().map((doc) => doc.slug)
-  );
+  const aliasToSlug = await getAliasToSlugMap();
+  const existingSlugs = await getExistingSlugs();
 
   return content.replace(
     /\[\[([^\]]+)\]\]/g,
@@ -164,7 +205,7 @@ export function processWikiLinks(content: string): string {
       const displayText = rawDisplay ? rawDisplay.trim() : target;
 
       // If target points to an image or file with extension, route to attachments
-      const ext = path.extname(target).toLowerCase();
+      const ext = getFileExtension(target);
       const isImage = [
         ".png",
         ".jpg",
@@ -174,9 +215,9 @@ export function processWikiLinks(content: string): string {
         ".svg",
       ].includes(ext);
       if (isImage) {
-        const base = path.basename(target);
+        const base = getBasename(target);
         const encoded = encodeURIComponent(base);
-        const url = `/attachments/${encoded}`;
+        const url = `${getAttachmentsBaseUrl()}/${encoded}`;
         // If user provided display text, use it as alt text
         return `![${displayText}](${url})`;
       }
@@ -209,19 +250,34 @@ export function processWikiLinks(content: string): string {
   );
 }
 
+function getAttachmentsBaseUrl(): string {
+  return `${GITHUB_RAW_BASE}/attachments`;
+}
+
+function getFileExtension(value: string): string {
+  const idx = value.lastIndexOf(".");
+  if (idx === -1) return "";
+  return value.slice(idx).toLowerCase();
+}
+
+function getBasename(value: string): string {
+  const segments = value.split(/[\\/]/);
+  return segments[segments.length - 1] ?? value;
+}
+
 export function processObsidianEmbeds(content: string): string {
   // Convert ![[filename]] or ![[filename|alt]] to standard markdown image
-  // We assume images are placed in public/attachments and served from /attachments
+  // Assets are served directly from the repository via raw.githubusercontent.com
   return content.replace(/!\s*\[\[([^\]]+)\]\]/g, (match, embedContent) => {
     const [rawTarget, rawAlt] = embedContent.split("|");
     const target = rawTarget.trim();
     const altText = rawAlt ? rawAlt.trim() : target;
     // Keep just the base filename and URL-encode it for safe paths
-    const base = path.basename(target);
+    const base = getBasename(target);
     const encoded = encodeURIComponent(base);
-    const url = `/attachments/${encoded}`;
+    const url = `${getAttachmentsBaseUrl()}/${encoded}`;
 
-    const ext = path.extname(base).toLowerCase();
+    const ext = getFileExtension(base);
     const isImage = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"].includes(
       ext
     );
@@ -233,56 +289,7 @@ export function processObsidianEmbeds(content: string): string {
   });
 }
 
-export function processContent(content: string): string {
-  return processWikiLinks(processObsidianEmbeds(content));
-}
-
-const contentAttachmentsDir = path.join(contentDirectory, "attachments");
-const publicDirectory = path.join(process.cwd(), "public");
-const publicAttachmentsDir = path.join(publicDirectory, "attachments");
-
-function ensureDirExists(dirPath: string) {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
-}
-
-function copyFileIfNewer(srcFile: string, destFile: string) {
-  try {
-    const srcStat = fs.statSync(srcFile);
-    let shouldCopy = true;
-    if (fs.existsSync(destFile)) {
-      const destStat = fs.statSync(destFile);
-      shouldCopy = srcStat.mtimeMs > destStat.mtimeMs;
-    }
-    if (shouldCopy) {
-      fs.copyFileSync(srcFile, destFile);
-    }
-  } catch (err) {
-    console.error("Error copying file", { srcFile, destFile, err });
-  }
-}
-
-function copyDirRecursive(srcDir: string, destDir: string) {
-  ensureDirExists(destDir);
-  const entries = fs.existsSync(srcDir)
-    ? fs.readdirSync(srcDir, { withFileTypes: true })
-    : [];
-  for (const entry of entries) {
-    const srcPath = path.join(srcDir, entry.name);
-    const destPath = path.join(destDir, entry.name);
-    if (entry.isDirectory()) {
-      copyDirRecursive(srcPath, destPath);
-    } else if (entry.isFile()) {
-      copyFileIfNewer(srcPath, destPath);
-    }
-  }
-}
-
-export function syncAttachments(): void {
-  // Mirror any files in content/attachments to public/attachments at build-time
-  ensureDirExists(publicAttachmentsDir);
-  if (fs.existsSync(contentAttachmentsDir)) {
-    copyDirRecursive(contentAttachmentsDir, publicAttachmentsDir);
-  }
+export async function processContent(content: string): Promise<string> {
+  const withEmbeds = processObsidianEmbeds(content);
+  return processWikiLinks(withEmbeds);
 }
