@@ -2,7 +2,6 @@
 title: Home
 published: true
 ---
-
 # Van
 
 ![[IMG_5733 2.png|Van]]
