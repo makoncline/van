@@ -9,6 +9,8 @@
 
 ## Tools/Materials
 
+- [ ] Doorman #800-188 Quick Connect
+- [ ] E-star socket for seat
 - [ ] E-star socket for seat
 - [ ] star/torx socket set for various van screws
 - [ ] ratchet handle/kit
@@ -31,7 +33,10 @@
 ### Dry fit and gather materials
 
 We should assemble the fuel line and hot air outlet as much as possible outside the van before installing the heater.
-![[Pasted image 20251006145701.png]]
+![[Pasted image 20251006163221.png]]
+My layout
+![[Pasted image 20251006162650.png]]
+
 Start at the auxiliary fuel connector and work your way to the fuel line, assembling and installing anything not connected to a variabele length line. Plan mounting point for the fuel pump and fuel line clamps. We should use pre existing holes/bolts wherever possible.
 For the cold air inlet, may be able to mount inside the frame tube without additional mounting points.
 For the hot air exhaust, plan mounting point for the muffler. Route the exhaust line away from the sliding door.
@@ -121,6 +126,8 @@ Plug in the heater wiring harness. Lift the factory floor and route the the wire
 ## Notes/Questions
 
 - Q: Do i need to buy an aux fuel conenctor, or did it come with my kit?
+  - A: Yes, it did not come with the kit. Need a [Doorman #800-188 Quick Connect](https://a.co/d/cSB2dvg)
+- Q: Which length exhaust pipe goes where? I assume the short one with metal cap must be final exhaust because of heat?
 - Q: Where can i mount the thermostat/controller?
 - Q: How will I power the heater?
 - pre-req: [[Aux DC Power]]
