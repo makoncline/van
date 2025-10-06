@@ -2,6 +2,7 @@
 title: Home
 published: true
 ---
+
 # Van
 
 ![[IMG_5733 2.png|Van]]
@@ -18,22 +19,7 @@ published: true
   - [ ] does it require DC-DC converter?
   - [ ] where will fuse box be mounted?
 
-- [[Diesel Heater]]
-
-  - pre-req: [[Aux DC Power]]
-    - Espar Airtronic S3 D2L Diesel 12V Sprinter Kit with EasyStart Pro Controller
-      - [x] Purchased kit from [Heatso](https://www.heatso.com/espar-airtronic-as3-d2l-12v-diesel-2kw-sprinter-kit/#:~:text=%241%2C510)
-        - order #46088
-        - $1,577.95
-  - [ ] Install under passenger seat
-  - tools needed:
-    - hole saw 26mm
-    - hole saw 2 1/2"
-    - ratchet socket set. star/torx/idk
-    - wire crimp, strip, cut?
-    - primer
-    - knee pads
-    - safety glasses
+- Diesel [[Heater]]
 
 - [[Vent Fan]]
 
