@@ -9,7 +9,22 @@
 
 ## Tools/Materials
 
--
+- [ ] E-star socket for seat
+- [ ] star/torx socket set for various van screws
+- [ ] ratchet handle/kit
+- [ ] torque wrench 1 - x newton meters for hose clamps and seat bolts
+- [ ] paint marker for marking selt bolt tension?
+- [ ] Stepper bits for combustion inlet/outlet
+- [ ] xxx drill bit for bolt holes
+- [ ] xxx drill bit for fuel line hole
+- [ ] 2 1/2" metal hole saw for hot air outlet
+- [x] deburr tool/file/sandpaper for rust prevention
+- [ ] isopropyl alcohol
+- [ ] primer for rust prevention
+- [ ] sealant for heater base
+- [ ] safety glasses/goggles. goggles for 360 degree protection working under the van.
+- [ ] wire tools. crimp, strip, cut, connectors?
+- [ ] knee pads? Something to roll under van on?
 
 ## Plan
 
@@ -109,19 +124,3 @@ Plug in the heater wiring harness. Lift the factory floor and route the the wire
 - Q: Where can i mount the thermostat/controller?
 - Q: How will I power the heater?
 - pre-req: [[Aux DC Power]]
-- tools needed:
-  - [ ] E-star socket for seat
-  - [ ] star/torx socket set
-  - [ ] torque wrench 1 - x newton meters for hose clamps and seat bolts
-  - [ ] paint marker for marking selt bolt tension
-  - [ ] Stepper bits for combustion inlet/outlet
-  - [ ] 2 1/2" metal hole saw for hot air outlet
-  - [ ] ratchet socket set. star/torx/idk
-  - [ ] wire tools. crimp, strip, cut, connectors?
-  - [ ] primer
-  - [ ] knee pads
-  - [ ] safety glasses
-  - [ ] Sealant
-  - [x] deburr tool
-  - [ ] isopropyl alcohol
-  - [x] sandpaper
