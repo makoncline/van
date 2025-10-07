@@ -27,6 +27,11 @@ published: true
     - $298.88
   - [Sprinter Van NCV3 or VS30 (2007 - present) Roof Vent Adapter for 14" x 14" Opening](https://diyvan.com/collections/roof-vent-adapters/products/sprinter-van-roof-vent-adapter-for-14-x-14-opening?variant=44047109783771)
     - $79.55
+  - [ ] do i want to buy a internal bracket?
+    - [DIY vans bracket](https://diyvan.com/collections/sprinter-products/products/interior-backing-frame-for-vent-installation-for-14-x-14-opening?variant=42111839633627)
+    - should i screw into it? or should i do bolts?
+    - where can i get a mount kit with flush bolts?
+  - use a wedge shape for the caulk gun tip ▲
   - tools needed:
     - butyl tape
     - Sikaflex-221 polyurethane adhesive (3M 4000UV/4200 alt)
@@ -35,7 +40,10 @@ published: true
     - sheet metal snips?
     - primer
     - file
+    - chamfer/deburr drill bit
     - caluc gun (electric?)
+    - heat gun to soften adhesive on the sound deadener panels around the vent hole
+    - paint scraper, to scrape off the sound deadener panels
 
 - [[Insulation]]
 
