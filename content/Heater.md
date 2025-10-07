@@ -1,3 +1,8 @@
+---
+title: Heater
+published: true
+---
+
 # Heater
 
 ## Equipment

@@ -57,10 +57,58 @@ published: true
 
 - [[Internet]]
 
-  - [ ] Starlink Standard or Starlink Mini?
-  - [ ] Mount in cab or on roof rails?
+I went with the Starlink Mini for internet. it works with DC power.
 
-- Window covers
+- [ ] Mount in cab or on roof rails?
+
+- [[Window covers]]
+
   - windshield
   - driver/passenger
   - rear
+
+- [[Electrical]]
+  - use Posi-tap PTA1218M for creating branch circuts. Dont need to cut the wire to make branch circuits.
+  - use Deutsch DT 2 pin connectors for removable lower amp connections (13amp rated). or wago lever nuts.
+  - make everything servicable
+  - edge protection TRIM-LOK 9/16" LEG to cover sharp edges
+  - use different color split loom sleeving for wires of different purposes. ex. white for lighting, blue for accessories, etc.
+  - label all wire runs
+  - use the Blue Sea systems circut calculator to determine wire size. you can always go larger for wire.
+  - wing zip ties for securing wires to factory holes in van walls.
+  - use a pick tool to undo hard to reach wire clips
+  -
+
+---
+
+## raw notes
+
+- rust prevention paint - rust bullet
+- get a size 1 center hold bit
+- get a chamfer bit
+- use marine grade materials for most things. wire, fasteners, components, etc.
+- buy some edge clip zip tie mounts
+- tools video?
+  - Best hole saws
+    - T413 AEROSPACE - expensive
+    - Rock hard 10TPI
+  - trim removal tools - maybe GOOACC 8pc kit
+  - Heat gun - Ryobi? or corded
+  - label machine - brady m210 - overkill but nice product
+  - rivnut setter - pull type better for no spinning - Astro PRN1 reccomended but is pneumatic and requires compressor. electric verson?
+  - electric caulking gun - ryobi for my battery system
+  - Adjustable power supply - 30VDC 20AMP max - test your circuts before the house battery goes in and walls go up.
+  - crimping tools
+    - general crimp/cut - wirefy 8pc set
+    - lug connections - temco th1818
+    - DT barrel crimper - gianneer 18-14awg
+  - airsaw - good for cutting holes in van. pneumatic though. can just use jig saw.
+
+-Battery disconnect
+
+- let the van sit for 20 mins after engine is off before disconnecting battery
+
+resources
+
+- [Sprinter Source](https://sprinter-source.com/)
+- [Moonraker Design Co youtube channel](https://www.youtube.com/@moonrakerdesign)

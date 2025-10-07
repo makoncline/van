@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Heater.md",
+                "file": "home.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Heater"
+              "title": "home"
             }
           }
         ]
@@ -171,11 +171,11 @@
   },
   "active": "817fa1c41db266b3",
   "lastOpenFiles": [
+    "Heater.md",
     "attachments/Pasted image 20251006163221.png",
     "attachments/Pasted image 20251006162650.png",
     "attachments/Pasted image 20251006145701.png",
     "home.md",
-    "Heater.md",
     "heater.md",
     "Aux DC Power.md",
     "Diesel Heater.md",
