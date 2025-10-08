@@ -12,7 +12,7 @@ Single rear fan. DIYvan rear adapter. DIY 3/4″ plywood interior frame. Through
 - [x] MaxxFan Deluxe 7500K (Smoke), 14×14 cutout — $298.88
 - [x] DIYvan VS30 rear-bay roof adapter (“All Rib / Bay 4”) — $79.55
 - [ ] 3/4″ birch plywood for interior frame (OD ~18″×18″, ID 14″×14″)
-- [ ] Butyl tape 1″ × 1/8″
+- [x] Butyl tape 1″ × 1/8″
 - [ ] Polyurethane adhesive/sealant (Sikaflex-221 or 3M 4000UV) for adapter→roof
 - [ ] Self-leveling lap sealant (Dicor or Alpha) for exterior cap
 - [ ] Touch-up enamel + rust-inhibiting primer for raw metal edges
@@ -30,29 +30,30 @@ Single rear fan. DIYvan rear adapter. DIY 3/4″ plywood interior frame. Through
 
 **Cut, prep, seal**
 
-- [ ] Painter’s/masking tape, marker, straightedge, square
-- [ ] Measuring tape, clamps, magnets
-- [ ] Large cardboard box or plastic sheeting “hammock” to catch shavings
-- [ ] Drop cloths, shop-vac, safety glasses, gloves
+- [x] Painter’s/masking tape, marker, straightedge, square
+- [x] Measuring tape, clamps, magnets
+- [x] Large cardboard box or plastic sheeting “hammock” to catch shavings
+- [x] Drop cloths, shop-vac, safety glasses, gloves
 
 **Cutting and drilling**
 
-- [ ] Jigsaw + bi-metal 18–24 TPI blades
-- [ ] Drill/driver
-- [ ] Bits: 1/8″ pilot, 3/8″ twist (corner holes), step bit to 3/8–1/2″
-- [ ] Deburr/chamfer bit and fine flat file
+- [x] Jigsaw
+- [ ] bi-metal 18–24 TPI blades
+- [x] Drill/driver
+- [x] Bits: 1/8″ pilot, 3/8″ twist (corner holes), step bit to 3/8–1/2″
+- [x] Deburr/chamfer bit and fine flat file
 
 **Frame finishing**
 
-- [ ] Forstner bit 1″–1-1/4″ for shallow counterbores (socket access)
-- [ ] Sandpaper
-- [ ] Caulk gun
+- [x] Forstner bit 1″–1-1/4″ for shallow counterbores (socket access)
+- [x] Sandpaper
+- [x] Caulk gun
 
 **Acoustic package removal (inside roof)**
 
-- [ ] Heat gun
-- [ ] Plastic/nylon paint scraper
-- [ ] Adhesive remover safe for painted steel (citrus-based or IPA)
+- [x] Heat gun
+- [x] Plastic/nylon paint scraper
+- [x] Adhesive remover safe for painted steel (citrus-based or IPA)
 
 **Electrical**
 

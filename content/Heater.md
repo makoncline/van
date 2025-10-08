@@ -14,24 +14,23 @@ published: true
 
 ## Tools/Materials
 
-- [ ] Doorman #800-188 Quick Connect
-- [ ] E-star socket for seat
-- [ ] E-star socket for seat
-- [ ] star/torx socket set for various van screws
-- [ ] ratchet handle/kit
+- [x] Doorman #800-188 Quick Connect
+- [x] E-star socket for seat
+- [x] star/torx socket set for various van screws
+- [x] ratchet handle/kit
 - [ ] torque wrench 1 - x newton meters for hose clamps and seat bolts
-- [ ] paint marker for marking selt bolt tension?
-- [ ] Stepper bits for combustion inlet/outlet
-- [ ] xxx drill bit for bolt holes
-- [ ] xxx drill bit for fuel line hole
+- [x] paint marker for marking selt bolt tension?
+- [x] Stepper bits for combustion inlet/outlet
+- [x] xxx drill bit for bolt holes
+- [x] xxx drill bit for fuel line hole
 - [ ] 2 1/2" metal hole saw for hot air outlet
 - [x] deburr tool/file/sandpaper for rust prevention
 - [ ] isopropyl alcohol
 - [ ] primer for rust prevention
 - [ ] sealant for heater base
-- [ ] safety glasses/goggles. goggles for 360 degree protection working under the van.
-- [ ] wire tools. crimp, strip, cut, connectors?
-- [ ] knee pads? Something to roll under van on?
+- [x] safety glasses/goggles. goggles for 360 degree protection working under the van.
+- [x] wire tools. crimp, strip, cut, connectors?
+- [x] knee pads? Something to roll under van on?
 
 ## Plan
 
