@@ -22,15 +22,7 @@ published: true
   - tools needed:
     - [Pro fabric scissors](https://www.amazon.com/LIVINGO-Multi-Purpose-Stainless-Dressmaking-Professional/dp/B0D8F41LBD/ref=as_li_ss_tl?dchild=1&keywords=fabric%2Bscissors&qid=1599167223&sr=8-1-spons&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFHWTI4QUlDQTZVSUkmZW5jcnlwdGVkSWQ9QTAxNzc3NThGSzRPRUhCRjM4WFQmZW5jcnlwdGVkQWRJZD1BMDk2MjMzNDI3RjY4UTI5RjhLMlcmd2lkZ2V0TmFtZT1zcF9hdGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl&linkCode=sl1&tag=vanlifeoutf0f-20&linkId=81ce4e350e7b8bb2a29df3a84006d722&language=en_US&th=1)
 
-- [[Aux DC Power]]
-
-  - [ ] lithium or AGM battery. why?
-  - [ ] install under seat or in cabin?
-    - how would we shore charge the battery under the seat?
-    - will a battery even fit under the seat?
-    - [ ] H8 or H9 size battery
-  - [ ] does it require DC-DC converter?
-  - [ ] where will fuse box be mounted?
+- [[power|Electrical System]]
 
 - [[Bed platform]]
 
