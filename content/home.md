@@ -21,7 +21,7 @@ published: true
 
 - [[heater|Diesel Heater]]
 
-- [[fan|Ventalation Fan]]
+- [[fan|Ventilation Fan]]
 
   - [Maxxair 00-07500K MaxxFan Deluxe with Remote (Smoke)](https://orionvangear.com/collections/fans/products/maxxair-00-07500k-maxxfan-deluxe-with-remote-smoke)
     - $298.88
