@@ -19,9 +19,9 @@ published: true
   - [ ] does it require DC-DC converter?
   - [ ] where will fuse box be mounted?
 
-- Diesel [[Heater]]
+- [[heater|Diesel Heater]]
 
-- [[Vent Fan]]
+- [[fan|Ventalation Fan]]
 
   - [Maxxair 00-07500K MaxxFan Deluxe with Remote (Smoke)](https://orionvangear.com/collections/fans/products/maxxair-00-07500k-maxxfan-deluxe-with-remote-smoke)
     - $298.88
