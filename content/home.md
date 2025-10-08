@@ -9,42 +9,8 @@ published: true
 
 ## Projects
 
-- [[Aux DC Power]]
-
-  - [ ] lithium or AGM battery. why?
-  - [ ] install under seat or in cabin?
-    - how would we shore charge the battery under the seat?
-    - will a battery even fit under the seat?
-    - [ ] H8 or H9 size battery
-  - [ ] does it require DC-DC converter?
-  - [ ] where will fuse box be mounted?
-
 - [[heater|Diesel Heater]]
-
 - [[fan|Ventilation Fan]]
-
-  - [Maxxair 00-07500K MaxxFan Deluxe with Remote (Smoke)](https://orionvangear.com/collections/fans/products/maxxair-00-07500k-maxxfan-deluxe-with-remote-smoke)
-    - $298.88
-  - [Sprinter Van NCV3 or VS30 (2007 - present) Roof Vent Adapter for 14" x 14" Opening](https://diyvan.com/collections/roof-vent-adapters/products/sprinter-van-roof-vent-adapter-for-14-x-14-opening?variant=44047109783771)
-    - $79.55
-  - [ ] do i want to buy a internal bracket?
-    - [DIY vans bracket](https://diyvan.com/collections/sprinter-products/products/interior-backing-frame-for-vent-installation-for-14-x-14-opening?variant=42111839633627)
-    - should i screw into it? or should i do bolts?
-    - where can i get a mount kit with flush bolts?
-  - use a wedge shape for the caulk gun tip ▲
-  - tools needed:
-    - butyl tape
-    - Sikaflex-221 polyurethane adhesive (3M 4000UV/4200 alt)
-    - Dicor lap sealant
-    - jigsaw
-    - sheet metal snips?
-    - primer
-    - file
-    - chamfer/deburr drill bit
-    - caluc gun (electric?)
-    - heat gun to soften adhesive on the sound deadener panels around the vent hole
-    - paint scraper, to scrape off the sound deadener panels
-
 - [[Insulation]]
 
   - 3M Thinsulate Insulation - SM600L
@@ -55,6 +21,16 @@ published: true
     - [ ] find good price and buy 3 large cans
   - tools needed:
     - [Pro fabric scissors](https://www.amazon.com/LIVINGO-Multi-Purpose-Stainless-Dressmaking-Professional/dp/B0D8F41LBD/ref=as_li_ss_tl?dchild=1&keywords=fabric%2Bscissors&qid=1599167223&sr=8-1-spons&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFHWTI4QUlDQTZVSUkmZW5jcnlwdGVkSWQ9QTAxNzc3NThGSzRPRUhCRjM4WFQmZW5jcnlwdGVkQWRJZD1BMDk2MjMzNDI3RjY4UTI5RjhLMlcmd2lkZ2V0TmFtZT1zcF9hdGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl&linkCode=sl1&tag=vanlifeoutf0f-20&linkId=81ce4e350e7b8bb2a29df3a84006d722&language=en_US&th=1)
+
+- [[Aux DC Power]]
+
+  - [ ] lithium or AGM battery. why?
+  - [ ] install under seat or in cabin?
+    - how would we shore charge the battery under the seat?
+    - will a battery even fit under the seat?
+    - [ ] H8 or H9 size battery
+  - [ ] does it require DC-DC converter?
+  - [ ] where will fuse box be mounted?
 
 - [[Bed platform]]
 
