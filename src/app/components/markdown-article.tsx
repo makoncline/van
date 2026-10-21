@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
+import { markdownOptions } from "@/lib/mdx-options";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 
 import {
@@ -65,12 +64,7 @@ export async function MarkdownArticle({ slug }: MarkdownArticleProps) {
         <MDXRemote
           source={processedContent}
           components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypeHighlight],
-            },
-          }}
+          options={markdownOptions}
         />
       </article>
     </div>
